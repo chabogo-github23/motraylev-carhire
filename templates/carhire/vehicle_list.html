@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Available Vehicles - Car Hire Service{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="mb-4">Available Vehicles ({{ total_days }} day{{ total_days|pluralize }})</h2>
+    
+    <div class="row">
+        {% for vehicle in vehicles %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                {% if vehicle.photo %}
+                    <img src="{{ vehicle.photo.url }}" class="card-img-top" alt="{{ vehicle }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <span class="text-muted">🚗 No Image</span>
+                    </div>
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ vehicle }}</h5>
+                    <p class="card-text">
+                        <strong>Type:</strong> {{ vehicle.vehicle_type }}<br>
+                        <strong>Mileage:</strong> {{ vehicle.mileage|floatformat:0 }} km<br>
+                        <strong>Condition:</strong> {{ vehicle.get_condition_display }}<br>
+                        <strong>Location:</strong> {{ vehicle.location }}
+                    </p>
+                    <div class="mt-auto">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="h5 text-primary">KShs. {{ vehicle.daily_rate }}/day</span>
+                        </div>
+                        <div class="mb-2">
+                            <small class="text-muted">
+                                Total: KShs. {{ vehicle.daily_rate|floatformat:0 }} × {{ total_days }} day{{ total_days|pluralize }} + KShs. 1,000 fee = 
+                                <strong>KShs. {% widthratio vehicle.daily_rate 1 total_days as total_cost %}{{ total_cost|add:1000 }}</strong>
+                            </small>
+                        </div>
+                        <a href="{% url 'vehicle_detail' vehicle.id %}" class="btn btn-primary w-100">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-warning text-center">
+                <h4>No vehicles available</h4>
+                <p>Sorry, no vehicles match your search criteria. Please try different dates or location.</p>
+                <a href="{% url 'home' %}" class="btn btn-primary">Search Again</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="text-center mt-4">
+        <a href="{% url 'home' %}" class="btn btn-outline-secondary">← Back to Search</a>
+    </div>
+</div>
+{% endblock %}

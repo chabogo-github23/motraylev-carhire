@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ vehicle }} - Car Hire Service{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-6">
+            {% if vehicle.photo %}
+                <img src="{{ vehicle.photo.url }}" class="img-fluid rounded" alt="{{ vehicle }}">
+            {% else %}
+                <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 300px;">
+                    <span class="text-muted h3">🚗 No Image Available</span>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <h2>{{ vehicle }}</h2>
+            <div class="mb-4">
+                <h4 class="text-primary">Vehicle Details</h4>
+                <table class="table table-borderless">
+                    <tr>
+                        <td><strong>Make & Model:</strong></td>
+                        <td>{{ vehicle.make }} {{ vehicle.model }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Year:</strong></td>
+                        <td>{{ vehicle.year }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Type:</strong></td>
+                        <td>{{ vehicle.vehicle_type }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mileage:</strong></td>
+                        <td>{{ vehicle.mileage|floatformat:0 }} km</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Condition:</strong></td>
+                        <td>{{ vehicle.get_condition_display }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Location:</strong></td>
+                        <td>{{ vehicle.location }}</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="reservation-fee">
+                <h5>💰 Pricing Breakdown</h5>
+                <table class="table table-sm">
+                    <tr>
+                        <td>Daily Rate:</td>
+                        <td class="text-end">KShs. {{ vehicle.daily_rate }}</td>
+                    </tr>
+                    <tr>
+                        <td>Duration:</td>
+                        <td class="text-end">{{ search_data.total_days }} day{{ search_data.total_days|pluralize }}</td>
+                    </tr>
+                    <tr>
+                        <td>Subtotal:</td>
+                        <td class="text-end">KShs. {% widthratio vehicle.daily_rate 1 search_data.total_days %}</td>
+                    </tr>
+                    <tr>
+                        <td>Reservation Fee:</td>
+                        <td class="text-end">KShs. 1,000</td>
+                    </tr>
+                    <tr class="table-primary">
+                        <td><strong>Total Amount:</strong></td>
+                        <td class="text-end"><strong>KShs. {{ total_amount }}</strong></td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="d-grid gap-2">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'make_reservation' vehicle.id %}" class="btn btn-success btn-lg">
+                        📅 Reserve This Vehicle
+                    </a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-warning btn-lg">
+                        🔐 Login to Reserve
+                    </a>
+                {% endif %}
+                <a href="{% url 'search_vehicles' %}" class="btn btn-outline-secondary">
+                    ← Back to Results
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

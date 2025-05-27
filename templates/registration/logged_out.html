@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Logged Out - Car Hire Service{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-success text-white text-center">
+                    <h3 class="card-title mb-0">✅ Successfully Logged Out</h3>
+                </div>
+                <div class="card-body text-center">
+                    <h4 class="mb-3">Thank you for using our service!</h4>
+                    <p class="text-muted mb-4">You have been successfully logged out of your account.</p>
+                    
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'home' %}" class="btn btn-primary btn-lg">
+                            🏠 Return to Home
+                        </a>
+                        <a href="{% url 'login' %}" class="btn btn-outline-secondary">
+                            🔐 Login Again
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

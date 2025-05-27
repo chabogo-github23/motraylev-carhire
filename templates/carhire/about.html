@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us - MOTRAYLEV Car Services{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container text-center">
+        <h1 class="display-4 mb-4">About MOTRAYLEV Car Services</h1>
+        <p class="lead">Your trusted partner for reliable transportation solutions</p>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card">
+                <div class="card-body p-5">
+                    <h2 class="text-primary mb-4">Who We Are</h2>
+                    <p class="lead mb-4">
+                        MOTRAYLEV Car Services is a trusted car hire company headquartered in Nairobi, Kenya. 
+                        We offer reliable, safe, and affordable transportation solutions for personal, corporate, 
+                        and special event needs.
+                    </p>
+                    
+                    <p class="mb-4">
+                        While our main office is in Nairobi, we also operate in other major cities including 
+                        Mombasa and Kisumu, with dedicated offices to serve clients locally. We take pride in 
+                        our well-maintained fleet, professional service, and strong commitment to customer satisfaction.
+                    </p>
+                    
+                    <p class="mb-4">
+                        Supported by strategic investor partnerships, our growing fleet ensures that clients 
+                        always have access to dependable vehicles whenever and wherever they need them.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 text-center">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <i class="fas fa-map-marker-alt text-primary" style="font-size: 3rem;"></i>
+                    </div>
+                    <h4>Our Locations</h4>
+                    <p class="text-muted">
+                        <strong>Headquarters:</strong> Nairobi<br>
+                        <strong>Branch Offices:</strong> Mombasa, Kisumu
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 text-center">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <i class="fas fa-car text-success" style="font-size: 3rem;"></i>
+                    </div>
+                    <h4>Our Contacts</h4>
+                    <p class="text-muted">
+                        <strong>EMAIL:</strong> themotraylev@gmail.com<br>
+                        <strong>TEL:</strong> 0706252320/ 0739338432
+
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 text-center">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <i class="fas fa-users text-info" style="font-size: 3rem;"></i>
+                    </div>
+                    <h4>Our Service</h4>
+                    <p class="text-muted">
+                        Professional service for personal, corporate, and special events. 
+                        Customer satisfaction is our top priority.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <div class="card bg-light">
+                <div class="card-body p-5">
+                    <h3 class="text-center mb-4">Why Choose MOTRAYLEV?</h3>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-start">
+                                <div class="me-3">
+                                    <i class="fas fa-check-circle text-success"></i>
+                                </div>
+                                <div>
+                                    <h5>Reliable Service</h5>
+                                    <p class="text-muted mb-0">Dependable vehicles available when you need them</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-start">
+                                <div class="me-3">
+                                    <i class="fas fa-shield-alt text-primary"></i>
+                                </div>
+                                <div>
+                                    <h5>Safe & Secure</h5>
+                                    <p class="text-muted mb-0">All vehicles regularly maintained and insured</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-start">
+                                <div class="me-3">
+                                    <i class="fas fa-dollar-sign text-warning"></i>
+                                </div>
+                                <div>
+                                    <h5>Affordable Rates</h5>
+                                    <p class="text-muted mb-0">Competitive pricing with transparent fees</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-start">
+                                <div class="me-3">
+                                    <i class="fas fa-headset text-info"></i>
+                                </div>
+                                <div>
+                                    <h5>Customer Support</h5>
+                                    <p class="text-muted mb-0">Dedicated support team ready to assist you</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+            <h3 class="mb-4">Ready to Get Started?</h3>
+            <p class="lead mb-4">
+                Experience the MOTRAYLEV difference. Book your vehicle today and enjoy 
+                reliable, professional car hire services across Kenya.
+            </p>
+            <div class="d-grid gap-2 d-md-block">
+                <a href="{% url 'home' %}" class="btn btn-primary btn-lg me-md-3">
+                    🚗 Book Now
+                </a>
+                <a href="{% url 'register' %}" class="btn btn-outline-primary btn-lg">
+                    📝 Create Account
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

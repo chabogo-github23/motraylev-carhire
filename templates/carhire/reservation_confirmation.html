@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}Reservation Confirmed - Car Hire Service{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-success">
+                <div class="card-header bg-success text-white text-center">
+                    <h2 class="card-title mb-0">🎉 Reservation Confirmed!</h2>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <h3 class="text-success">Confirmation Number: {{ reservation.confirmation_number }}</h3>
+                        <p class="text-muted">Please save this number for your records</p>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            {% if reservation.vehicle.photo %}
+                                <img src="{{ reservation.vehicle.photo.url }}" class="img-fluid rounded" alt="{{ reservation.vehicle }}">
+                            {% else %}
+                                <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 150px;">
+                                    <span class="text-muted h3">🚗</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-8">
+                            <h4>{{ reservation.vehicle }}</h4>
+                            <p class="text-muted">{{ reservation.vehicle.vehicle_type }} • {{ reservation.vehicle.get_condition_display }} Condition</p>
+                        </div>
+                    </div>
+                    
+                    <div class="reservation-fee">
+                        <h5>📋 Booking Details</h5>
+                        <table class="table">
+                            <tr>
+                                <td><strong>Customer:</strong></td>
+                                <td>{{ reservation.user.get_full_name|default:reservation.user.username }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Pickup Location:</strong></td>
+                                <td>{{ reservation.pickup_location }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Pickup Date:</strong></td>
+                                <td>{{ reservation.pickup_date|date:"M d, Y H:i" }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dropoff Date:</strong></td>
+                                <td>{{ reservation.dropoff_date|date:"M d, Y H:i" }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Duration:</strong></td>
+                                <td>{{ reservation.total_days }} day{{ reservation.total_days|pluralize }}</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Status:</strong></td>
+                                <td><span class="badge bg-warning">{{ reservation.get_status_display }}</span></td>
+                            </tr>
+                            <tr class="table-success">
+                                <td><strong>Total Paid:</strong></td>
+                                <td><strong>KShs. {{ reservation.total_amount }}</strong></td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <h6>📱 Next Steps:</h6>
+                        <ol class="mb-0">
+                            <li>You will receive a confirmation email shortly</li>
+                            <li>Bring your driver's license and ID for vehicle pickup</li>
+                            <li>Arrive at the pickup location 15 minutes early</li>
+                            <li>Contact us if you need to modify your reservation</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button onclick="window.print()" class="btn btn-outline-primary">
+                            🖨️ Print Confirmation
+                        </button>
+                        <a href="{% url 'my_reservations' %}" class="btn btn-primary">
+                            📋 View All My Reservations
+                        </a>
+                        <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+                            🏠 Back to Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

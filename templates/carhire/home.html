@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Car Hire Service{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container text-center">
+        <h1 class="display-4 mb-4">FIND YOUR PERFECT RENTAL CAR WITH MOTRAYLEV</h1>
+        <p class="lead">Experience luxury and comfort on your journey</p>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">Search Available Vehicles</h3>
+                </div>
+                <div class="card-body">
+                    <div class="reservation-fee">
+                        <h5>📋 Reservation Information</h5>
+                        <p class="mb-0"><strong>Reservation Fee:</strong> KShs. 1,000 (Applied to all bookings)</p>
+                    </div>
+                    
+                    <form method="post" action="{% url 'search_vehicles' %}">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.location.id_for_label }}" class="form-label">Location</label>
+                                {{ form.location }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.vehicle_type.id_for_label }}" class="form-label">Vehicle Type</label>
+                                {{ form.vehicle_type }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.pickup_date.id_for_label }}" class="form-label">Pickup Date & Time</label>
+                                {{ form.pickup_date }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.dropoff_date.id_for_label }}" class="form-label">Dropoff Date & Time</label>
+                                {{ form.dropoff_date }}
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-lg">🔍 Search Vehicles</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <h4>🚗 Wide Selection</h4>
+                    <p>Choose from sedans, SUVs, hatchbacks and more</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <h4>💰 Best Prices</h4>
+                    <p>Competitive rates with transparent pricing</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <h4>📱 Easy Booking</h4>
+                    <p>Simple online reservation process</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

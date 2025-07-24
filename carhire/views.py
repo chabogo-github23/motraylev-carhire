@@ -3,10 +3,109 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from django.contrib import messages
 from django.utils import timezone
+from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.conf import settings
 from datetime import datetime, timedelta
 from .models import Vehicle, Location, VehicleType, Reservation
 from .forms import SearchForm, ReservationForm, CustomUserCreationForm
 
+# Custom Token Generator
+class TokenGenerator(PasswordResetTokenGenerator):
+    def _make_hash_value(self, user, timestamp):
+        return (
+            str(user.pk) + str(timestamp) +
+            str(user.is_active)
+        )
+
+account_activation_token = TokenGenerator()
+
+# Custom email sending function
+def send_custom_password_reset_email(request, user):
+    """Send custom password reset email"""
+    try:
+        # Generate token and uid
+        token = account_activation_token.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        
+        # Get domain
+        domain = request.get_host()
+        protocol = 'https' if request.is_secure() else 'http'
+        
+        # Prepare email context
+        context = {
+            'user': user,
+            'domain': domain,
+            'uid': uid,
+            'token': token,
+            'protocol': protocol,
+        }
+        
+        # Render email content
+        subject = 'Password Reset - Car Hire Service'
+        email_template = 'registration/password_reset_email.html'
+        email_content = render_to_string(email_template, context)
+        
+        # Send email
+        send_mail(
+            subject=subject,
+            message=email_content,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[user.email],
+            html_message=email_content,
+            fail_silently=False,
+        )
+        
+        messages.success(request, 'Password reset email sent successfully!')
+        return True
+        
+    except Exception as e:
+        messages.error(request, f'Failed to send email: {str(e)}')
+        return False
+
+# Custom Password Reset Views
+class CustomPasswordResetView(PasswordResetView):
+    template_name = 'registration/password_reset_form.html'
+    email_template_name = 'registration/password_reset_email.html'
+    success_url = '/password-reset/done/'
+    
+    def form_valid(self, form):
+        email = form.cleaned_data['email']
+        users = list(form.get_users(email))
+        user = users[0] if users else None
+        
+        if user:
+            # Send custom email
+            if send_custom_password_reset_email(self.request, user):
+                return redirect(self.success_url)
+            else:
+                return self.form_invalid(form)
+        else:
+            messages.error(self.request, 'No account found with this email address!')
+            return self.form_invalid(form)
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'registration/password_reset_confirm.html'
+    success_url = '/reset/done/'
+    token_generator = account_activation_token
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['uidb64'] = self.kwargs['uidb64']
+        context['token'] = self.kwargs['token']
+        return context
+    
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, 'Your password has been reset successfully.')
+        return super().form_valid(form)
+
+# Your existing views remain the same...
 def home(request):
     """Landing page with search form"""
     form = SearchForm()
